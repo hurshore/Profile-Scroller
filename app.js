@@ -1,12 +1,18 @@
+let fetched = false
+let users;
+
 document.getElementById('next').addEventListener('click', showProfile);
 
 async function getUser(){
-   const response = await fetch('https://jsonplaceholder.typicode.com/users')
-
-   const users = await response.json();
-
+   if (!fetched) {
+      const response = await fetch('https://jsonplaceholder.typicode.com/users')
+      users = await response.json();
+      fetched = true
+      return users
+   }
    return users;
 }
+
 
 const images = [
    'https://randomuser.me/api/portraits/women/52.jpg',
@@ -36,7 +42,6 @@ function showProfile(){
                   <li class="list-group-item">Company: ${profiles[i].company.name}</li>
                   </ul>
                `;
-
                document.getElementById('img-container').innerHTML = `<img src="${images[i]}" width="300px">`;
             } else {
                window.location.reload();
